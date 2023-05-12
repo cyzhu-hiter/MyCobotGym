@@ -34,8 +34,25 @@ class MyCobotEnv(MujocoEnv):
     metadata = {"render_modes": [
         "human", "rgb_array", "depth_array"], "render_fps": 25}
 
-    def __init__(self, model_path: str = "./assets/mycobot280.xml", has_object=True, block_gripper=False, control_steps=5, controller_type: Literal['mocap', 'IK', 'joint', 'delta_joint'] = 'IK', obj_range: float = 0.1, target_range: float = 0.1, target_offset: float = 0.0, target_in_the_air=True, distance_threshold=0.05, initial_qpos: dict = {}, fetch_env: bool = False, reward_type="sparse", frame_skip: int = 20, default_camera_config: dict = DEFAULT_CAMERA_CONFIG, **kwargs) -> None:
+    def __init__(self, 
+                 model_path: str = "./assets/mycobot280.xml", 
+                 has_object=True, 
+                 block_gripper=False, 
+                 control_steps=10, 
+                 controller_type: Literal['mocap', 'IK', 'joint', 'delta_joint'] = 'IK', 
+                 obj_range: float = 0.1, 
+                 target_range: float = 0.1, 
+                 target_offset: float = 0.0, 
+                 target_in_the_air=True, 
+                 distance_threshold=0.05, 
+                 initial_qpos: dict = {}, 
+                 fetch_env: bool = False, 
+                 reward_type="sparse", 
+                 frame_skip: int = 20, 
+                 default_camera_config: dict = DEFAULT_CAMERA_CONFIG, 
+                 **kwargs) -> None:
 
+        print("Control_steps: {}, frame_skip: {}".format(control_steps, frame_skip))
         self.block_gripper = block_gripper
         self.has_object = has_object
         self.target_in_the_air = target_in_the_air
@@ -290,9 +307,9 @@ class MyCobotEnv(MujocoEnv):
                 grip_pos,
                 object_pos.ravel(),
                 object_rel_pos.ravel(),
+                gripper_state,
                 
                 # Sim2real mitigating some observation variables
-                # gripper_state,
                 # object_rot.ravel(),
                 # object_velp.ravel(),
                 # object_velr.ravel(),
